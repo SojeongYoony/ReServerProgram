@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd" >
+
+<configuration>
+
+	<environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+                <property name="username" value="scott"/>
+                <property name="password" value="1111"/>
+            </dataSource>
+        </environment>
+	</environments>
+	
+	<mappers>										<!-- mapper는 table당 하나임 그래서 tagName이 mappers인것..주의! -->
+        <mapper resource="dao/board.xml"/>		<!-- "."대신 "/"사용 주의  -->
+	</mappers>
+	
+</configuration>
