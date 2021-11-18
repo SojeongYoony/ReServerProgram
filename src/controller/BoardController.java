@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.ModelAndView;
-import model.BoardService;
-
-
-/* 가장 완벽한 형태 (여지껏 우리가 작성했던 것 중에서...) */
-
+import model.BoardDeleteService;
+import model.BoardDetailService;
+import model.BoardInsertService;
+import model.BoardListService;
+import model.MemberService;
+import model.ReplyInsertService;
+import model.ReplyListService;
 
 @WebServlet("*.do")
 public class BoardController extends HttpServlet {
@@ -26,30 +28,54 @@ public class BoardController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");	// ajax 작성 시, 달라질 수 있는 부분임.
-		String requestURI = request.getRequestURI();																		//   /BATCH/student/list.do       
-		String contextPath = request.getContextPath();																		// 	 /BATCH
-		String command = requestURI.substring(contextPath.length() + 1);  						// contextPath + 1 == contextPath를 제외한 값 	--> student/list.do
+		response.setContentType("text/html; charset=UTF-8");
+		String requestURI = request.getRequestURI();																		 
+		String contextPath = request.getContextPath();																	
+		String command = requestURI.substring(contextPath.length() + 1);  					
 		
 		ModelAndView mav = null;
-		BoardService service = null; 													// 모든 model들의 type을 잡아두고 아래 switch문에서 method를 채워준다.
+		MemberService service = null; 													
 		switch(command) {
+		/* board List */
+		case "selectBoardList.do" : 
+			service = new BoardListService();
+			break;
+		/* board detail */
+		case "selectBoardByNo.do" :
+			service = new BoardDetailService();
+			break;
+		/* form 가기 */
+		case "insertBoardForm.do" :
+			mav = new ModelAndView("views/boardInsertForm.jsp", false);
+			break;
+		/* insert board */	
+		case "insertBoard.do" :
+			service = new BoardInsertService();
+			break;
+		/* insert reply */
+		case "insertReply.do" :
+			service = new ReplyInsertService();
+			break;
+		/* delete content */	
+		case "deleteBoard.do" :
+			service = new BoardDeleteService();
+			break;
 		}
 		
 		if (service != null) {
-			try {														// Exception을 직접 받기 위한 try를 작성할 것 ---> 100% 예외 처리됨. IOE or Servlet E 는 위에서 해주지만 다른 예외 처리를 위해 작성.(interface에서 던지는 exception임)
-				mav = service.execute(request, response);		// 모든 실행의 결과는 mav이다.
+			try {														
+				mav = service.execute(request, response);		
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		//command의 실행 결과로 mav가 반환됨.
-		if (mav != null) {				// mav 가 null이 아니면
-			if(mav.isRedirect()) {		// redirect 여부 확인
-					response.sendRedirect(mav.getView());										// mav가 getView(이동할 장소)를 가지고 redirect response를 한다.
+	
+		if (mav != null) {				
+			if(mav.isRedirect()) {		
+					response.sendRedirect(mav.getView());										
 			} else {
-					request.getRequestDispatcher(mav.getView()).forward(request, response);		// 아니면 forward한다 request와 response를 들고.
+					request.getRequestDispatcher(mav.getView()).forward(request, response);		
 			}
 		}
 		

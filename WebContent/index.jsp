@@ -4,16 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>시작 화면</title>
 <script>
 	setTimeout(function(){
-		location.href='boardList.do';
-	}, 5000);
+		location.href='selectBoardList.do';
+	}, 3000);
 </script>
 </head>
 <body>
 
-	<h1>5초 후에 게시판으로 이동합니다.</h1>
+	<h1>3초 후에 게시판으로 이동합니다.</h1>
 
 </body>
 </html>
