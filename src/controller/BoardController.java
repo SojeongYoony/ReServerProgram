@@ -15,7 +15,6 @@ import model.BoardInsertService;
 import model.BoardListService;
 import model.MemberService;
 import model.ReplyInsertService;
-import model.ReplyListService;
 
 @WebServlet("*.do")
 public class BoardController extends HttpServlet {

@@ -27,11 +27,11 @@ public class ReplyInsertService implements MemberService {
 		int result = BoardDAO.getInstance().insertReply(replyDTO);
 		PrintWriter out = response.getWriter();
 		if (result > 0) {
-			out.println("<script>");
-			out.println("alert('댓글이 등록되었습니다.')");
-			out.println("history.back()");
-			out.println("</script>");
-			out.close();
+//			out.println("<script>");
+//			out.println("alert('댓글이 등록되었습니다.')");
+//			out.println("history.back()");
+//			out.println("</script>");
+//			out.close();
 			return new ModelAndView("selectBoardByNo.do?no=" + board_no, true);
 		} else {
 			out.println("<script>");

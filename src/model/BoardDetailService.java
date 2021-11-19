@@ -29,6 +29,12 @@ public class BoardDetailService implements MemberService {
 		
 		BoardDTO boardDTO = BoardDAO.getInstance().selectBoardByNo(no);
 		
+		if(boardDTO == null) {
+			BoardDAO.getInstance().updateBoardHit(no);
+			boardDTO = BoardDAO.getInstance().selectBoardByNo(no);
+		} 
+		
+		
 		
 		if(boardDTO != null) {
 			session.setAttribute("boardDTO", boardDTO);
