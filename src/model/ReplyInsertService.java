@@ -29,17 +29,17 @@ public class ReplyInsertService implements MemberService {
 		if (result > 0) {
 			out.println("<script>");
 			out.println("alert('댓글이 등록되었습니다.')");
+		// 어제는 보지 못 했던 부분 : location을 통한 redirect도 있음 기억하기. return에서 mav로 redirect할 생각만 했다.
 			out.println("location.href='selectBoardByNo.do?no="+ board_no + "'");	// redirect 이동
 			out.println("</script>");
 			out.close();
-			return null;
 		} else {
 			out.println("<script>");
 			out.println("alert('댓글 달기 실패')");
 			out.println("history.back()");
 			out.println("</script>");
 			out.close();
-			return null;
 		}
+		return null;
 	}
 }

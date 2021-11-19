@@ -29,15 +29,22 @@
 		}) // end submit
 	}); // end onload
 	
+/* 	
+ ***********  선생님 답안   ***********
+   function fnDelete(fo) {				// confirm true 일 때 action을 정하여 submit하는 방법이 있다.
+		if (confirm('게시글을 삭제할까요?')){
+			fo.action = 'deleteBoard.do';
+			fo.submit();
+		}
+	}
+*/
 </script>
-
-	
 </head>
 <body>
 	<%-- 받아올 dto 2가지 --%>
 	<div>
 		<h3>${boardDTO.no} 번 게시글</h3>
-		<br>		<%-- session 저장이든 request 저장이든 똑같이 EL 사용 가능함 --%>
+		<br>	
 		작성자 : ${boardDTO.author}<br>
 		작성일 : ${boardDTO.postdate}<br>
 		작성IP: ${boardDTO.ip}<br>
@@ -71,6 +78,10 @@
 		<table border="1">
 			<c:if test="${empty replyList}">
 				<tr>
+					<!-- 
+						선생님 답변에 colspan="4"가 있다.
+						그러나 나는 있을 때, tr과 td가 추가되는거니, 필요 없다고 생각한다. 
+					-->
 					<td>작성된 댓글이 없습니다.</td>
 				</tr>
 			</c:if>
@@ -85,8 +96,6 @@
 				</c:forEach>
 			</c:if>
 		</table>
-		
 	</div>
-
 </body>
 </html>

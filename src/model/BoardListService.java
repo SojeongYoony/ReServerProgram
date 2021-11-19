@@ -16,15 +16,17 @@ public class BoardListService implements MemberService {
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		HttpSession session = request.getSession();
-		BoardDTO boardDTO = (BoardDTO) session.getAttribute("boardDTO");
-		if(boardDTO != null) {
-			session.removeAttribute("boardDTO");
-		}
+	//	BoardDTO boardDTO = (BoardDTO) session.getAttribute("boardDTO");
+//		if(boardDTO != null) {
+//			session.removeAttribute("boardDTO");
+//		}
 		
 		if (session.getAttribute("open") != null) {
 			session.removeAttribute("open");
 		}
 		
+		// 변수를 선언하여 따로 저장해서 값을 넘기지 않고, setAttribute에서 바로 저장할 수도 있음
+		// request.setAttribute("list", BoardDAO.getInstance().selectBoardList());
 		List<BoardDTO> list = BoardDAO.getInstance().selectBoardList();
 		int totalCount = BoardDAO.getInstance().getTotalCount();
 		request.setAttribute("list", list);

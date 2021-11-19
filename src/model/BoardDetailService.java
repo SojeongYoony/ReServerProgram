@@ -34,8 +34,6 @@ public class BoardDetailService implements MemberService {
 			boardDTO = BoardDAO.getInstance().selectBoardByNo(no);
 		} 
 		
-		
-		
 		if(boardDTO != null) {
 			session.setAttribute("boardDTO", boardDTO);
 			List<ReplyDTO> replyList = BoardDAO.getInstance().selectReplyList(no);
