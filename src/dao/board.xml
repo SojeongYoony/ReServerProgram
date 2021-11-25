@@ -23,6 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (board_SEQ.NEXTVAL, #{author}, #{title}, #{content}, 0, #{ip}, SYSDATE)
 	</insert>
 
+	<!-- delete board -->
+	<delete id="deleteBoard" parameterType="Long">
+		DELETE
+		  FROM board
+		 WHERE no = #{no}
+	</delete>
+
 	<!-- select one -->
 	<select id="selectBoardByNo" parameterType="Long" resultType="dto.BoardDTO">
 		SELECT no, author, title, content, hit, ip, postdate
@@ -44,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- select reply list -->
+	<!-- 게시글의 no : board_no ==> 게시글이 일치하는 곳에서 찾아야 하므로 board_no를 사용해야 한다. -->
 	<select id="selectReplyList" parameterType="Long" resultType="dto.ReplyDTO">
 		SELECT no, author, content, ip, board_no, postdate
 		  FROM reply
@@ -58,11 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 				FROM board)
 	</select>
 	
-	<!-- delete board -->
-	<delete id="deleteBoard" parameterType="Long">
-		DELETE
-		  FROM board
-		 WHERE no = #{no}
-	</delete>
+	<!-- checkReply -->
+	<select id="checkReply" parameterType="Long" resultType="dto.ReplyDTO">
+		SELECT no
+		  FROM reply
+		 WHERE board_no = #{no}
+	</select>
 
 </mapper>

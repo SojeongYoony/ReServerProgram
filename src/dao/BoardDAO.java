@@ -24,7 +24,7 @@ public class BoardDAO {
 		return instance;
 	}
 	
-	// 1. board list
+	// 1. board list 		:: 선생님 selectBoardList
 	public List<BoardDTO> selectBoardList() {
 		SqlSession ss = factory.openSession();
 		List<BoardDTO> list = ss.selectList("dao.board.selectBoardList");
@@ -32,7 +32,7 @@ public class BoardDAO {
 		return list;
 	}
 	
-	// 2. total Count
+	// 2. total Count		:: 선생님 getTotalBoardCount
 	public int getTotalCount() {
 		SqlSession ss = factory.openSession();
 		int totalCount = ss.selectOne("dao.board.getTotalCount");		// select로 돌리고 결과는 한 줄이다.
@@ -41,7 +41,7 @@ public class BoardDAO {
 	}
 	
 	
-	// 3. insert board content
+	// 3. insert board content	:: insertBoard
 	public int insertBoard(BoardDTO boardDTO) {
 		SqlSession ss = factory.openSession(false); // prevent auto commit
 		int result = ss.insert("dao.board.insertBoard", boardDTO);
@@ -50,7 +50,16 @@ public class BoardDAO {
 		return result;
 	}
 	
-	// 4. select one
+	// 7. delete board			:: deleteBoard
+	public int deleteBoard(Long no) {
+		SqlSession ss = factory.openSession(false);
+		int result = ss.delete("dao.board.deleteBoard", no);
+		if (result > 0) ss.commit();
+		ss.close();
+		return result;
+	}
+	
+	// 4. select one			:: selectBoardByNo
 	public BoardDTO selectBoardByNo(Long no) {
 		SqlSession ss = factory.openSession();
 		BoardDTO boardDTO = ss.selectOne("dao.board.selectBoardByNo", no);
@@ -58,7 +67,7 @@ public class BoardDAO {
 		return boardDTO;
 	}
 	
-	//  update board content's hit
+	//  update board content's hit	::updateBoardHit
 	public int updateBoardHit (Long no) {
 		SqlSession ss = factory.openSession(false);
 		int result = ss.update("dao.board.updateBoardHit", no);
@@ -84,23 +93,29 @@ public class BoardDAO {
 		return list;
 	}
 	
-	// max hit
-	public List<BoardDTO> selectMaxHit() {
+	// max hit		// 수정해야할 부분 ==> 하나만 select 하면 되므로, list가 필요 없음 ! -> MaxHit!! should be one
+	/*public List<BoardDTO> selectMaxHit() {
 		SqlSession ss = factory.openSession();
 		List<BoardDTO> maxHit = ss.selectList("dao.board.selectMaxHit");
 		ss.close();
 		return maxHit;
 	}	
-	
-	// 7. delete board
-	public int deleteBoard(Long no) {
-		SqlSession ss = factory.openSession(false);
-		int result = ss.delete("dao.board.deleteBoard", no);
-		if (result > 0) ss.commit();
+	*/
+	public BoardDTO selectMaxHit() {
+		SqlSession ss = factory.openSession();
+		BoardDTO boardDTO = ss.selectOne("dao.board.selectMaxHit");
 		ss.close();
-		return result;
+		return boardDTO;
 	}
 
+	// ** 추가 checkReply
+	public boolean checkReply(Long no) {
+		SqlSession ss = factory.openSession();
+		ReplyDTO replyDTO = ss.selectOne("dao.board.checkReply", no);
+		ss.close();
+		return replyDTO == null;
+	}
+	
 	
 	
 }
